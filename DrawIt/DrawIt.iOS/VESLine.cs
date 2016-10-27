@@ -1,4 +1,5 @@
-﻿using MonoTouch.UIKit;
+using UIKit;
+using Xamarin.Forms;
 
 namespace DrawIt.iOS
 {
@@ -8,7 +9,7 @@ namespace DrawIt.iOS
 			set;
 		}
 
-		public UIColor Color {
+		public Color Color {
 			get;
 			set;
 		}

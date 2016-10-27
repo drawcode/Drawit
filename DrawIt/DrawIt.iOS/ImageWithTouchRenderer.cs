@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using CoreGraphics;
 using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms;
 using DrawIt;
@@ -14,7 +14,7 @@ namespace DrawIt.iOS
         {
             base.OnElementChanged(e);
 
-            SetNativeControl(new DrawView(RectangleF.Empty));
+            SetNativeControl(new DrawView(CGRect.Empty));
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -29,7 +29,7 @@ namespace DrawIt.iOS
 
         private void UpdateControl()
         {
-            Control.CurrentLineColor = Element.CurrentLineColor.ToUIColor();
+            Control.CurrentLineColor = Element.CurrentLineColor;
         }
     }
 }

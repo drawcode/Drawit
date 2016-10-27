@@ -1,30 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
+using Xamarin.Forms;
 
 namespace DrawIt.iOS
 {
     // Original Source: http://stackoverflow.com/questions/21029440/xamarin-ios-drawing-onto-image-after-scaling-it
 	public class DrawView : UIView
 	{
-		public DrawView (RectangleF frame) : base (frame)
+		public DrawView (CGRect frame) : base (frame)
 		{
 			DrawPath = new CGPath ();
-			CurrentLineColor = UIColor.Black;
+			CurrentLineColor = Color.Black;
 			PenWidth = 5.0f;
 			Lines = new List<VESLine> ();
 		}
 
-		private PointF PreviousPoint;
+		private CGPoint PreviousPoint;
 		private CGPath DrawPath;
 		private byte IndexCount;
 		private UIBezierPath CurrentPath;
 		private List<VESLine> Lines;
 
-		public UIColor CurrentLineColor { get; set; }
+		public Color CurrentLineColor { get; set; }
 		public float PenWidth { get; set; }
 
 		public void Clear ()
@@ -44,12 +44,12 @@ namespace DrawIt.iOS
 			};
 
 		    var touch = (UITouch)touches.AnyObject;
-			PreviousPoint = touch.PreviousLocationInView (this);
+			PreviousPoint = (CGPoint)touch.PreviousLocationInView ((UIView)this);
 
-			var newPoint = touch.LocationInView (this);
-			path.MoveTo (newPoint);
+			var newPoint = (CGPoint)touch.LocationInView ((UIView)this);
+			path.MoveTo ((CGPoint)newPoint);
 
-			InvokeOnMainThread (SetNeedsDisplay);
+			InvokeOnMainThread ((Action)SetNeedsDisplay);
 
 			CurrentPath = path;
 
@@ -66,33 +66,33 @@ namespace DrawIt.iOS
 		public override void TouchesMoved (NSSet touches, UIEvent evt)
 		{
 			var touch = (UITouch)touches.AnyObject;
-			var currentPoint = touch.LocationInView (this);
+			var currentPoint = (CGPoint)touch.LocationInView ((UIView)this);
 
 			if (Math.Abs (currentPoint.X - PreviousPoint.X) >= 4 ||
 			    Math.Abs (currentPoint.Y - PreviousPoint.Y) >= 4) {
 
-				var newPoint = new PointF ((currentPoint.X + PreviousPoint.X) / 2, (currentPoint.Y + PreviousPoint.Y) / 2);
+				var newPoint = new CGPoint ((currentPoint.X + PreviousPoint.X) / 2, (currentPoint.Y + PreviousPoint.Y) / 2);
 
-				CurrentPath.AddQuadCurveToPoint (newPoint, PreviousPoint);
+				CurrentPath.AddQuadCurveToPoint ((CGPoint)newPoint, (CGPoint)PreviousPoint);
 				PreviousPoint = currentPoint;
 			} else {
-				CurrentPath.AddLineTo (currentPoint);
+				CurrentPath.AddLineTo ((CGPoint)currentPoint);
 			}
 
-			InvokeOnMainThread (SetNeedsDisplay);
+			InvokeOnMainThread ((Action)SetNeedsDisplay);
 		}
 
 		public override void TouchesEnded (NSSet touches, UIEvent evt)
 		{
-			InvokeOnMainThread (SetNeedsDisplay);
+			InvokeOnMainThread ((Action)SetNeedsDisplay);
 		}
 
 		public override void TouchesCancelled (NSSet touches, UIEvent evt)
 		{
-			InvokeOnMainThread (SetNeedsDisplay);
+			InvokeOnMainThread ((Action)SetNeedsDisplay);
 		}
 
-		public override void Draw (RectangleF rect)
+		public override void Draw (CGRect rect)
 		{
 			foreach (var line in Lines) {
 				line.Color.SetStroke ();

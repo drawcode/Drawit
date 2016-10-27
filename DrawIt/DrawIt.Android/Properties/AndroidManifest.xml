@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
-	<application></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="DrawIt.DrawIt" android:versionName="0.0.0.1" android:versionCode="0">
+	<uses-sdk android:minSdkVersion="19" />
+	<application android:label="DrawIt"></application>
 </manifest>

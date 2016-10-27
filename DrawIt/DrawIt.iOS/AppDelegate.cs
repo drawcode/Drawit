@@ -1,9 +1,10 @@
-﻿using System;
+using CoreGraphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 using Xamarin.Forms;
 
@@ -12,7 +13,7 @@ namespace DrawIt.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
-    [Register("AppDelegate")]
+    [Foundation.Register("AppDelegate")]
     public partial class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
@@ -29,7 +30,7 @@ namespace DrawIt.iOS
         {
             Forms.Init();
 
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
+            window = new UIWindow((CGRect)UIScreen.MainScreen.Bounds);
 
             window.RootViewController = App.GetMainPage().CreateViewController();
 
